@@ -1,38 +1,12 @@
 
-WELCOME
-=======
-Congratulations you have just created a new Mule Cloud Connector!
-
-This wizard created a number of new classes and resources useful for Mule
-modules.  Each of the created files contains documentation and TODO
-items where necessary.  Here is an overview of what was created.
-
-./pom.xml:
-A maven project descriptor that describes how to build this module.
-
-./LICENSE.md:
-The open source license text for this project.
-
-TESTING
+Sample devkit cloud connector WITHOUT @Source
 =======
 
-This  project also contains test classes that can be run as part of a test
-suite.
+devkit maven command used to generate project -
 
-ADDITIONAL RESOURCES
-====================
-Everything you need to know about getting started with Mule can be found here:
-http://www.mulesoft.org/documentation/display/MULE3INTRO/Home
-
-There further useful information about extending Mule here:
-http://www.mulesoft.org/documentation/display/DEVKIT/Home
-
-Remember if you get stuck you can try getting help on the Mule user list:
-http://www.mulesoft.org/email-lists
-
-Also, MuleSoft, the company behind Mule, offers 24x7 support options:
-http://www.mulesoft.com/enterprise-subscriptions-and-support
-
-Enjoy your Mule ride!
-
-The Mule Team
+    mvn archetype:generate -DarchetypeGroupId=org.mule.tools.devkit \
+      -DarchetypeArtifactId=mule-devkit-archetype-cloud-connector \
+      -DarchetypeVersion=3.3.2 -DgroupId=com.espn.mule.connector.sample \
+      -DartifactId=sample-mule-connector -Dversion=1.0-SNAPSHOT \
+      -DmuleVersion=3.3.0 -DmuleConnectorName=Sample -Dpackage=com.espn.mule.connector.sample \
+      -DarchetypeRepository=http://repository.mulesoft.org/releases
