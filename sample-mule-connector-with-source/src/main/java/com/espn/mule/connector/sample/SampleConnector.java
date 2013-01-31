@@ -80,6 +80,7 @@ public class SampleConnector
             try {
                 Long l = System.currentTimeMillis();
                 callback.process(l);
+                Thread.sleep(1000);
             } catch(Throwable t){}
         }
     }
