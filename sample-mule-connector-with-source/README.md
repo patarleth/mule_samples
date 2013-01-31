@@ -1,8 +1,8 @@
 
-Sample devkit cloud connector WITHOUT @Source
+Sample devkit cloud connector WITH @Source
 =======
 
-devkit command used to generate project -
+devkit maven command used to generate project -
 
     mvn archetype:generate -DarchetypeGroupId=org.mule.tools.devkit \
       -DarchetypeArtifactId=mule-devkit-archetype-cloud-connector \

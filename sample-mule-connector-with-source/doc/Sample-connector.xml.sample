@@ -1,0 +1,7 @@
+<!-- BEGIN_INCLUDE(sample:my-processor) -->
+    <sample:my-processor content="#[map-payload:content]" />
+<!-- END_INCLUDE(sample:my-processor) -->
+
+<!-- BEGIN_INCLUDE(sample:ping-it) -->
+    <sample:ping-it />
+<!-- END_INCLUDE(sample:ping-it) -->
