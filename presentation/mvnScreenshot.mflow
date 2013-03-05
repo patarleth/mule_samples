@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:scripting="http://www.mulesoft.org/schema/mule/scripting" xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:quartz="http://www.mulesoft.org/schema/mule/quartz"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.4.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd 
+http://www.mulesoft.org/schema/mule/quartz http://www.mulesoft.org/schema/mule/quartz/current/mule-quartz.xsd 
+http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mule/scripting/current/mule-scripting.xsd 
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd 
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd 
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd ">
+
+    <spring:beans>
+
+        <spring:bean 
+            id="phantomJsWebDriverClientBean" name="phantomJsWebDriverClientBean" 
+            class="com.espn.phantomjs.client.PhantomJsWebDriverClient" scope="singleton">
+            <spring:constructor-arg value="/usr/local/bin/phantomjs"/>
+            <spring:constructor-arg value="60"/>
+        </spring:bean>
+
+        <spring:bean id="screenshotBean" 
+            name="screenshotBean" class="com.espn.phantomjs.PhantomJs" scope="singleton">
+            <spring:constructor-arg ref="phantomJsWebDriverClientBean"/>
+        </spring:bean>
+
+    </spring:beans>
+
+
+
+    <flow name="saveBytesToFile" doc:name="saveBytesToFile">
+        <file:outbound-endpoint 
+            path="/Users/arlethp1/Documents/mule presentation/screenshots" 
+            outputPattern="#[java.lang.System.currentTimeMillis()].screenshot.png" 
+            responseTimeout="10000" doc:name="File"/>
+        <file:file-to-byte-array-transformer doc:name="File to Byte Array"/>
+    </flow>
+
+
+
+    <flow name="takeScreenshotWithSetPayload" doc:name="takeScreenshotWithSetPayload">
+        <set-payload value="#[app.registry['screenshotBean'].screenshot(payload)]" doc:name="Set Payload"/>
+        <flow-ref name="saveBytesToFile" doc:name="saveToFile"/>
+    </flow>
+
+
+
+
+    <flow name="takesreenshotWithSpringBean" doc:name="takesreenshotWithSpringBean">
+        <scripting:transformer doc:name="springBeanScreenshot">
+            <scripting:script engine="JavaScript">
+                <scripting:text><![CDATA[var bean = registry.lookupObject('screenshotBean');
+result = bean.screenshot(payload);]]></scripting:text>
+            </scripting:script>
+        </scripting:transformer>
+        <flow-ref name="saveBytesToFile" doc:name="saveToFile"/>
+    </flow>
+
+
+
+
+    <flow name="takescreenshot" doc:name="takescreenshot">
+        <scripting:transformer doc:name="screenshotUsingJustJS">
+            <scripting:script engine="JavaScript">
+                <scripting:text><![CDATA[importClass(Packages.com.espn.phantomjs.PhantomJs);
+var phantomjs = new PhantomJs('/usr/local/bin/phantomjs', 60);
+var bytes = phantomjs.screenshot(message.payload);
+result = bytes;]]></scripting:text>
+            </scripting:script>
+        </scripting:transformer>
+        <flow-ref name="saveBytesToFile" doc:name="saveToFile"/>
+    </flow>
+
+
+
+	<flow name="cronJob" doc:name="cronJob">
+		<quartz:inbound-endpoint jobName="eventTimer"
+			repeatInterval="30000" responseTimeout="10000" doc:name="Quartz">
+			<quartz:event-generator-job>
+				<quartz:payload>http://espn.go.com</quartz:payload>
+			</quartz:event-generator-job>
+		</quartz:inbound-endpoint>
+		<logger
+			message="Hello from cron #[message.payload] - #[java.lang.System.currentTimeMillis()]"
+			level="INFO" doc:name="Logger" />
+        <flow-ref name="takeScreenshotWithSetPayload" doc:name="take screenshot"/>
+	</flow>
+
+
+</mule>

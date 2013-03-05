@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:phantomjs="http://www.mulesoft.org/schema/mule/phantomjs" xmlns:quartz="http://www.mulesoft.org/schema/mule/quartz" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd 
+http://www.mulesoft.org/schema/mule/phantomjs http://www.mulesoft.org/schema/mule/phantomjs/1.0-SNAPSHOT/mule-phantomjs.xsd 
+http://www.mulesoft.org/schema/mule/quartz http://www.mulesoft.org/schema/mule/quartz/current/mule-quartz.xsd 
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd 
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd ">
+
+    <!-- default values are not saved -->
+    <phantomjs:config name="Phantomjs" doc:name="Phantomjs" timeout="30"/>
+
+    <flow name="saveBytes" doc:name="saveBytes">
+        <file:outbound-endpoint 
+            path="/Users/arlethp1/Documents/mule presentation/screenshots" 
+            outputPattern="#[java.lang.System.currentTimeMillis()].screenshot.png" 
+            responseTimeout="10000" doc:name="saveScreenshot"/>
+        <file:file-to-byte-array-transformer doc:name="File to Byte Array"/>
+    </flow>
+
+
+
+    <flow name="phantomjsScreenshot" doc:name="phantomjsScreenshot">
+        <phantomjs:screenshot config-ref="Phantomjs" 
+                              url="#[message.payload]" 
+                              doc:name="Phantomjs"/>
+        <flow-ref name="saveBytes" doc:name="Flow Reference"/>
+    </flow>
+
+
+    <flow name="screenshot-presentationFlow1" doc:name="screenshot-presentationFlow1">
+        <quartz:inbound-endpoint 
+            jobName="eventTimer" 
+            repeatInterval="30000" 
+            responseTimeout="10000" 
+            doc:name="Quartz">
+            
+          <quartz:event-generator-job>
+                <quartz:payload>http://espn.go.com</quartz:payload>
+            </quartz:event-generator-job>
+        </quartz:inbound-endpoint>
+        
+        <logger level="INFO" doc:name="Logger"/>
+        
+        <flow-ref name="phantomjsScreenshot" doc:name="takeScreenshot"/>
+    </flow>
+</mule>
