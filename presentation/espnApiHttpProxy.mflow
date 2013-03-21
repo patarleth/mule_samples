@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mule-configuration xmlns="http://www.mulesoft.com/tooling/messageflow" name="espnApiHttpProxy">
+    <flow SubFlow="false" name="setApiKey" entity-id="4f0a4f7d-01e8-436c-9387-96bdd9e3fdbd">
+        <properties>
+            <property name="processingStrategy2"/>
+            <property name="processingStrategy"/>
+            <property value="1" name="auxiliary;index"/>
+            <property name="bussinessEventsLabel"/>
+            <property name="tracking:enable-default-events"/>
+            <property value="1" name="auxiliary;index"/>
+            <property value="1" name="auxiliary;index"/>
+            <property value="1" name="auxiliary;index"/>
+        </properties>
+        <lane isChoiceOtherwiseLane="false" index="0" hadOnlyOneElement="false" entity-id="compartment-lane#1">
+            <splitter index="2" type="org.mule.tooling.ui.modules.core.pattern.cbr" name="Choice" entity-id="Choice#1">
+                <properties>
+                    <property name="updated"/>
+                    <property value="2" name=";INDEX"/>
+                    <property-collection name="a7758c34-0a96-49de-973d-36e434f5bcd4">
+                        <property value="true" name="choice.otherwise"/>
+                        <property value="" name="choice.expression"/>
+                        <property-collection name="choice.attributes"/>
+                    </property-collection>
+                    <property-collection name="39504727-528a-4b2c-91d6-ce949794f11a">
+                        <property value="#[message.inboundProperties['http.request'].indexOf(&quot;?&quot;) &gt; 0]" name="choice.expression"/>
+                        <property-collection name="choice.attributes">
+                            <property value="#[payload.toString().indexOf(&quot;?&quot;) &gt; 0]" name="expression"/>
+                        </property-collection>
+                    </property-collection>
+                </properties>
+                <description></description>
+                <pattern type="org.mule.tooling.ui.modules.core.pattern.cbr" name="Choice" entity-id="Choice#2">
+                    <properties>
+                        <property name="updated"/>
+                        <property value="2" name=";INDEX"/>
+                        <property-collection name="a7758c34-0a96-49de-973d-36e434f5bcd4">
+                            <property value="true" name="choice.otherwise"/>
+                            <property value="" name="choice.expression"/>
+                            <property-collection name="choice.attributes"/>
+                        </property-collection>
+                        <property-collection name="39504727-528a-4b2c-91d6-ce949794f11a">
+                            <property value="#[message.inboundProperties['http.request'].indexOf(&quot;?&quot;) &gt; 0]" name="choice.expression"/>
+                            <property-collection name="choice.attributes">
+<property value="#[payload.toString().indexOf(&quot;?&quot;) &gt; 0]" name="expression"/>
+                            </property-collection>
+                        </property-collection>
+                    </properties>
+                    <description></description>
+                </pattern>
+                <compartment entity-id="compartment#1">
+                    <lane isChoiceOtherwiseLane="false" index="4" hadOnlyOneElement="false" entity-id="39504727-528a-4b2c-91d6-ce949794f11a">
+                        <pattern type="http://www.mulesoft.org/schema/mule/core/set-payload" name="setAmpOnQueryString" entity-id="Set Payload#1">
+                            <properties>
+<property value="#[message.payload]&amp;" name="value"/>
+<property value="5" name="auxiliary;index"/>
+<property value="5" name="auxiliary;index"/>
+<property value="5" name="auxiliary;index"/>
+                            </properties>
+                        </pattern>
+                    </lane>
+                    <lane isChoiceOtherwiseLane="true" index="7" hadOnlyOneElement="false" entity-id="a7758c34-0a96-49de-973d-36e434f5bcd4">
+                        <pattern type="http://www.mulesoft.org/schema/mule/core/set-payload" name="setQuestionMarkOnQueryString" entity-id="Set Payload#2">
+                            <properties>
+<property value="#[message.payload]?" name="value"/>
+<property value="8" name="auxiliary;index"/>
+<property value="8" name="auxiliary;index"/>
+<property value="8" name="auxiliary;index"/>
+                            </properties>
+                        </pattern>
+                    </lane>
+                </compartment>
+            </splitter>
+            <pattern type="http://www.mulesoft.org/schema/mule/core/set-payload" name="appendApiKeyParam" entity-id="Set Payload#3">
+                <properties>
+                    <property value="#[message.payload]apikey=q2bh5dsmavpy85p8a6e482zn" name="value"/>
+                    <property value="9" name="auxiliary;index"/>
+                    <property value="9" name="auxiliary;index"/>
+                    <property value="9" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+        </lane>
+    </flow>
+    <flow SubFlow="false" name="espnApiHttpProxy" entity-id="600a1f6f-9680-432d-a3fa-edfd370c9104">
+        <properties>
+            <property name="processingStrategy2"/>
+            <property name="processingStrategy"/>
+            <property value="10" name="auxiliary;index"/>
+            <property name="bussinessEventsLabel"/>
+            <property name="tracking:enable-default-events"/>
+            <property value="10" name="auxiliary;index"/>
+            <property value="10" name="auxiliary;index"/>
+            <property value="10" name="auxiliary;index"/>
+        </properties>
+        <lane isChoiceOtherwiseLane="false" index="0" hadOnlyOneElement="false" entity-id="compartment-lane#2">
+            <endpoint message-exchange-pattern="OneWay" direction="Inbound" type="http://www.mulesoft.org/schema/mule/http/endpoint" name="HTTP" entity-id="HTTP#1">
+                <properties>
+                    <property value="8081" name="port"/>
+                    <property value="true" name="auxiliary;erased;mimeType"/>
+                    <property value="localhost" name="host"/>
+                    <property value="http://www.mulesoft.org/schema/mule/http/endpoint" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="false" name="keep-alive"/>
+                    <property value="text/javascript" name="contentType"/>
+                    <property value="false" name="disableTransportTransformer"/>
+                    <property value="" name="password"/>
+                    <property value="request-response" name="exchange-pattern"/>
+                    <property value="" name="ref"/>
+                    <property value="" name="transformer-refs"/>
+                    <property value="" name="httpLabel"/>
+                    <property value="" name="address"/>
+                    <property value="true" name="auxiliary;erased;encoding"/>
+                    <property value="v1" name="path"/>
+                    <property value="" name="encoding"/>
+                    <property value="" name="responseTransformer-refs"/>
+                    <property value="" name="user"/>
+                    <property value="10000" name="responseTimeout"/>
+                    <property value="" name="mimeType"/>
+                    <property value="" name="connector-ref"/>
+                    <property value="11" name="auxiliary;index"/>
+                    <property name="updated"/>
+                </properties>
+                <description></description>
+            </endpoint>
+            <pattern type="http://www.mulesoft.org/schema/mule/core/flow-ref" name="setApiKey" entity-id="Flow Reference#1">
+                <properties>
+                    <property value="setApiKey" name="name"/>
+                    <property value="14" name="auxiliary;index"/>
+                    <property value="14" name="auxiliary;index"/>
+                    <property value="14" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <endpoint message-exchange-pattern="OneWay" direction="Outbound" type="http://www.mulesoft.org/schema/mule/http/endpoint" name="HTTP" entity-id="HTTP#2">
+                <properties>
+                    <property value="80" name="port"/>
+                    <property value="true" name="auxiliary;erased;mimeType"/>
+                    <property value="api.espn.com" name="host"/>
+                    <property value="false" name="followRedirects"/>
+                    <property value="http://www.mulesoft.org/schema/mule/http/endpoint" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="false" name="keep-alive"/>
+                    <property value="text/javascript" name="contentType"/>
+                    <property value="false" name="disableTransportTransformer"/>
+                    <property value="" name="password"/>
+                    <property value="request-response" name="exchange-pattern"/>
+                    <property value="" name="ref"/>
+                    <property value="" name="transformer-refs"/>
+                    <property value="" name="httpLabel"/>
+                    <property value="" name="address"/>
+                    <property value="true" name="auxiliary;erased;encoding"/>
+                    <property value="#[payload]" name="path"/>
+                    <property value="" name="encoding"/>
+                    <property value="" name="responseTransformer-refs"/>
+                    <property value="GET" name="method"/>
+                    <property value="" name="user"/>
+                    <property value="" name="mimeType"/>
+                    <property value="10000" name="responseTimeout"/>
+                    <property value="" name="connector-ref"/>
+                    <property value="15" name="auxiliary;index"/>
+                    <property name="updated"/>
+                </properties>
+                <description></description>
+            </endpoint>
+        </lane>
+    </flow>
+    <description></description>
+</mule-configuration>

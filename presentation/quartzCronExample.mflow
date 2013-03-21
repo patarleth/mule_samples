@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mule-configuration xmlns="http://www.mulesoft.com/tooling/messageflow" name="quartzCronExample">
+    <global-element type="http://www.mulesoft.org/schema/mule/espnapi/config" name="ESPN Dev Center API" entity-id="ESPN Dev Center API#1">
+        <properties>
+            <property value="ESPN_Dev_Center_API" name="name"/>
+            <property value="1" name="auxiliary;index"/>
+            <property value="api.espn.com" name="apihost"/>
+            <property value="q2bh5dsmavpy85p8a6e482zn" name="apikey"/>
+            <property value="v1" name="version"/>
+            <property value="1" name="auxiliary;index"/>
+            <property value="1" name="auxiliary;index"/>
+            <property value="1" name="auxiliary;index"/>
+        </properties>
+    </global-element>
+    <flow SubFlow="false" name="quartzCronExampleFlow1" entity-id="4e7e56f1-a30e-492d-86e2-5369ab6acfbe">
+        <properties>
+            <property name="processingStrategy2"/>
+            <property name="processingStrategy"/>
+            <property value="2" name="auxiliary;index"/>
+            <property name="bussinessEventsLabel"/>
+            <property name="tracking:enable-default-events"/>
+            <property value="2" name="auxiliary;index"/>
+            <property value="2" name="auxiliary;index"/>
+            <property value="2" name="auxiliary;index"/>
+        </properties>
+        <lane isChoiceOtherwiseLane="false" index="0" hadOnlyOneElement="false" entity-id="compartment-lane#1">
+            <endpoint message-exchange-pattern="OneWay" direction="Inbound" type="http://www.mulesoft.org/schema/mule/quartz/endpoint" name="cronEvery5Seconds" entity-id="Quartz#1">
+                <properties>
+                    <property value="one-way" name="exchange-pattern"/>
+                    <property value="every5Seconds" name="jobName"/>
+                    <property name="cronExpression"/>
+                    <property value="5000" name="repeatInterval"/>
+                    <property name="repeatCount"/>
+                    <property name="startDelay"/>
+                    <property value="3" name="auxiliary;index"/>
+                    <property value="3" name="auxiliary;index"/>
+                    <property name="businessEventsLabel"/>
+                    <property name="tracking:enable-default-events"/>
+                    <property value="3" name="auxiliary;index"/>
+                    <property name="address"/>
+                    <property value="10000" name="responseTimeout"/>
+                    <property name="encoding"/>
+                    <property name="disableTransportTransformer"/>
+                    <property name="mimeType"/>
+                    <property value="3" name="auxiliary;index"/>
+                    <property value="3" name="auxiliary;index"/>
+                    <property name="connector-ref"/>
+                    <property name="ref"/>
+                    <property name="transformer-refs"/>
+                    <property value="3" name="auxiliary;index"/>
+                    <property value="3" name="auxiliary;index"/>
+                    <property value="3" name="auxiliary;index"/>
+                    <property-collection name="@http://www.mulesoft.org/schema/mule/quartz/event-generator-job;0">
+                        <property value="4" name="auxiliary;wrapIn"/>
+                        <property value="4" name="auxiliary;index"/>
+                        <property-collection name="@http://www.mulesoft.org/schema/mule/quartz/payload;1">
+                            <property value="hello nurse" name="text"/>
+                            <property value="5" name="auxiliary;wrapIn"/>
+                            <property value="5" name="auxiliary;index"/>
+                        </property-collection>
+                    </property-collection>
+                </properties>
+            </endpoint>
+            <pattern type="http://www.mulesoft.org/schema/mule/core/session-variable-transformer" name="setLeagueVar" entity-id="Session Variable#1">
+                <properties>
+                    <property value="http://www.mulesoft.org/schema/mule/core/set-session-variable" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="league" name="variableName"/>
+                    <property value="mens-college-basketball" name="value"/>
+                    <property value="6" name="auxiliary;index"/>
+                    <property value="6" name="auxiliary;index"/>
+                    <property value="6" name="auxiliary;index"/>
+                    <property value="6" name="auxiliary;index"/>
+                    <property value="6" name="auxiliary;index"/>
+                    <property value="6" name="auxiliary;index"/>
+                    <property value="6" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/core/session-variable-transformer" name="setSportVar" entity-id="Session Variable#2">
+                <properties>
+                    <property value="http://www.mulesoft.org/schema/mule/core/set-session-variable" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="sport" name="variableName"/>
+                    <property value="basketball" name="value"/>
+                    <property value="7" name="auxiliary;index"/>
+                    <property value="7" name="auxiliary;index"/>
+                    <property value="7" name="auxiliary;index"/>
+                    <property value="7" name="auxiliary;index"/>
+                    <property value="7" name="auxiliary;index"/>
+                    <property value="7" name="auxiliary;index"/>
+                    <property value="7" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <endpoint message-exchange-pattern="RequestResponse" direction="Outbound" type="http://www.mulesoft.org/schema/mule/https/endpoint" name="getSportLeagueHeadlines" entity-id="8b54a730-5664-4bec-ac3f-3da23038b4eb">
+                <properties>
+                    <property value="true" name="auxiliary;erased;contentType"/>
+                    <property value="80" name="port"/>
+                    <property value="true" name="auxiliary;erased;mimeType"/>
+                    <property value="api.espn.com" name="host"/>
+                    <property value="false" name="followRedirects"/>
+                    <property value="http://www.mulesoft.org/schema/mule/http/endpoint" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="false" name="keep-alive"/>
+                    <property value="" name="contentType"/>
+                    <property value="false" name="disableTransportTransformer"/>
+                    <property value="" name="password"/>
+                    <property value="request-response" name="exchange-pattern"/>
+                    <property value="" name="ref"/>
+                    <property value="" name="transformer-refs"/>
+                    <property value="" name="httpLabel"/>
+                    <property value="" name="address"/>
+                    <property value="true" name="auxiliary;erased;encoding"/>
+                    <property value="v1/sports/#[sport]/#[league]/news/headlines?apikey=q2bh5dsmavpy85p8a6e482zn" name="path"/>
+                    <property value="" name="encoding"/>
+                    <property value="" name="responseTransformer-refs"/>
+                    <property value="POST" name="method"/>
+                    <property value="" name="user"/>
+                    <property value="" name="mimeType"/>
+                    <property value="10000" name="responseTimeout"/>
+                    <property value="" name="connector-ref"/>
+                    <property name="updated"/>
+                </properties>
+                <description></description>
+            </endpoint>
+            <pattern type="http://www.mulesoft.org/schema/mule/core/object-to-string-transformer" name="convertHttpResponseToString" entity-id="1c7bf500-d8da-42fc-9f9c-bd250a368792"/>
+            <pattern type="http://www.mulesoft.org/schema/mule/core/flow-ref" name="doSomethingWithResponse" entity-id="7f1353c7-8ae0-4b80-a749-b4e737df70c8">
+                <properties>
+                    <property value="quartzCronExampleFlow1" name="name"/>
+                    <property name="updated"/>
+                </properties>
+                <description></description>
+            </pattern>
+        </lane>
+    </flow>
+    <flow SubFlow="false" name="doSomethingWithApiResponse" entity-id="5d5f235b-91c4-4b61-acf8-7c1781699bcc">
+        <lane isChoiceOtherwiseLane="false" index="0" hadOnlyOneElement="false" entity-id="96e4b22b-5cc8-4237-b119-e4edec717551">
+            <pattern type="http://www.mulesoft.org/schema/mule/core/logger" name="Logger" entity-id="Logger#1">
+                <properties>
+                    <property value="#[message.payload]" name="message"/>
+                    <property value="INFO" name="level"/>
+                    <property name="category"/>
+                    <property value="9" name="auxiliary;moved-from"/>
+                </properties>
+            </pattern>
+        </lane>
+    </flow>
+    <description></description>
+</mule-configuration>

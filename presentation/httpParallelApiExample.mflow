@@ -1,0 +1,771 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mule-configuration xmlns="http://www.mulesoft.com/tooling/messageflow" name="httpParallelApiExample">
+    <global-element type="http://www.mulesoft.org/schema/mule/espnapi/config" name="ESPN Dev Center API" entity-id="ESPN Dev Center API#1">
+        <properties>
+            <property value="ESPN_Dev_Center_API" name="name"/>
+            <property value="1" name="auxiliary;index"/>
+            <property value="api.espn.com" name="apihost"/>
+            <property value="q2bh5dsmavpy85p8a6e482zn" name="apikey"/>
+            <property value="v1" name="version"/>
+            <property value="1" name="auxiliary;index"/>
+            <property value="1" name="auxiliary;index"/>
+            <property value="1" name="auxiliary;index"/>
+        </properties>
+    </global-element>
+    <global-element type="http://www.mulesoft.org/schema/mule/naivejsonmergediff/config" name="Naivejsonmergediff" entity-id="Naivejsonmergediff#1">
+        <properties>
+            <property value="Naivejsonmergediff" name="name"/>
+            <property value="2" name="auxiliary;index"/>
+            <property name="indent"/>
+            <property name="diffURL"/>
+            <property name="diffSleep"/>
+            <property value="2" name="auxiliary;index"/>
+            <property value="2" name="auxiliary;index"/>
+            <property value="2" name="auxiliary;index"/>
+        </properties>
+    </global-element>
+    <flow SubFlow="false" name="recapFlow" entity-id="08d71983-7f31-4533-ab57-397dd1cd1b87">
+        <properties>
+            <property name="processingStrategy2"/>
+            <property name="processingStrategy"/>
+            <property value="3" name="auxiliary;index"/>
+            <property name="bussinessEventsLabel"/>
+            <property name="tracking:enable-default-events"/>
+            <property value="3" name="auxiliary;index"/>
+            <property value="3" name="auxiliary;index"/>
+            <property value="3" name="auxiliary;index"/>
+        </properties>
+        <lane isChoiceOtherwiseLane="false" index="0" hadOnlyOneElement="false" entity-id="compartment-lane#1">
+            <endpoint message-exchange-pattern="OneWay" direction="Inbound" type="http://www.mulesoft.org/schema/mule/http/endpoint" name="HTTP/8081/ncb/game" entity-id="HTTP#1">
+                <properties>
+                    <property value="one-way" name="exchange-pattern"/>
+                    <property value="request-response" name="exchange-pattern"/>
+                    <property value="4" name="auxiliary;index"/>
+                    <property value="http://www.mulesoft.org/schema/mule/http/endpoint" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="4" name="auxiliary;index"/>
+                    <property name="httpLabel"/>
+                    <property value="localhost" name="host"/>
+                    <property value="8081" name="port"/>
+                    <property value="ncb/game" name="path"/>
+                    <property name="method"/>
+                    <property value="4" name="auxiliary;index"/>
+                    <property value="4" name="auxiliary;index"/>
+                    <property name="businessEventsLabel"/>
+                    <property name="tracking:enable-default-events"/>
+                    <property value="4" name="auxiliary;index"/>
+                    <property name="address"/>
+                    <property name="encoding"/>
+                    <property name="disableTransportTransformer"/>
+                    <property name="mimeType"/>
+                    <property name="responseTimeout"/>
+                    <property name="followRedirects"/>
+                    <property value="4" name="auxiliary;index"/>
+                    <property value="4" name="auxiliary;index"/>
+                    <property value="4" name="auxiliary;index"/>
+                    <property name="connector-ref"/>
+                    <property name="ref"/>
+                    <property name="transformer-refs"/>
+                    <property name="responseTransformer-refs"/>
+                    <property value="4" name="auxiliary;index"/>
+                    <property value="4" name="auxiliary;index"/>
+                    <property name="user"/>
+                    <property name="password"/>
+                    <property value="4" name="auxiliary;index"/>
+                    <property name="contentType"/>
+                    <property name="keep-alive"/>
+                    <property value="4" name="auxiliary;index"/>
+                    <property value="4" name="auxiliary;index"/>
+                    <property value="4" name="auxiliary;index"/>
+                </properties>
+            </endpoint>
+            <pattern type="http://www.mulesoft.org/schema/mule/core/flow-ref" name="initializeVariablesUsedForTiming" entity-id="Flow Reference#1">
+                <properties>
+                    <property value="timingStart" name="name"/>
+                    <property value="5" name="auxiliary;index"/>
+                    <property value="5" name="auxiliary;index"/>
+                    <property value="5" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/core/session-variable-transformer" name="setLeagueVariable" entity-id="Session Variable#1">
+                <properties>
+                    <property value="http://www.mulesoft.org/schema/mule/core/set-session-variable" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="league" name="variableName"/>
+                    <property value="mens-college-basketball" name="value"/>
+                    <property value="6" name="auxiliary;index"/>
+                    <property value="6" name="auxiliary;index"/>
+                    <property value="6" name="auxiliary;index"/>
+                    <property value="6" name="auxiliary;index"/>
+                    <property value="6" name="auxiliary;index"/>
+                    <property value="6" name="auxiliary;index"/>
+                    <property value="6" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/core/session-variable-transformer" name="setSport" entity-id="Session Variable#2">
+                <properties>
+                    <property value="http://www.mulesoft.org/schema/mule/core/set-session-variable" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="sport" name="variableName"/>
+                    <property value="basketball" name="value"/>
+                    <property value="7" name="auxiliary;index"/>
+                    <property value="7" name="auxiliary;index"/>
+                    <property value="7" name="auxiliary;index"/>
+                    <property value="7" name="auxiliary;index"/>
+                    <property value="7" name="auxiliary;index"/>
+                    <property value="7" name="auxiliary;index"/>
+                    <property value="7" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/core/flow-ref" name="handleHttpQueryStringParams" entity-id="Flow Reference#2">
+                <properties>
+                    <property value="handleHttpQueryStringParams" name="name"/>
+                    <property value="8" name="auxiliary;index"/>
+                    <property value="8" name="auxiliary;index"/>
+                    <property value="8" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+        </lane>
+    </flow>
+    <flow SubFlow="false" name="timingStart" entity-id="1af8ae44-74e7-4cb3-9c2d-e8b4e1ca20d1">
+        <properties>
+            <property name="processingStrategy2"/>
+            <property name="processingStrategy"/>
+            <property value="9" name="auxiliary;index"/>
+            <property name="bussinessEventsLabel"/>
+            <property name="tracking:enable-default-events"/>
+            <property value="9" name="auxiliary;index"/>
+            <property value="9" name="auxiliary;index"/>
+            <property value="9" name="auxiliary;index"/>
+        </properties>
+        <lane isChoiceOtherwiseLane="false" index="0" hadOnlyOneElement="false" entity-id="compartment-lane#2">
+            <pattern type="http://www.mulesoft.org/schema/mule/core/session-variable-transformer" name="startTime" entity-id="Session Variable#3">
+                <properties>
+                    <property value="http://www.mulesoft.org/schema/mule/core/set-session-variable" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="startTime" name="variableName"/>
+                    <property value="#[java.lang.System.currentTimeMillis()]" name="value"/>
+                    <property value="10" name="auxiliary;index"/>
+                    <property value="10" name="auxiliary;index"/>
+                    <property value="10" name="auxiliary;index"/>
+                    <property value="10" name="auxiliary;index"/>
+                    <property value="10" name="auxiliary;index"/>
+                    <property value="10" name="auxiliary;index"/>
+                    <property value="10" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/core/session-variable-transformer" name="lookupGameStartTime" entity-id="Session Variable#4">
+                <properties>
+                    <property value="http://www.mulesoft.org/schema/mule/core/set-session-variable" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="lookupGameStartTime" name="variableName"/>
+                    <property value="#[startTime]" name="value"/>
+                    <property value="11" name="auxiliary;index"/>
+                    <property value="11" name="auxiliary;index"/>
+                    <property value="11" name="auxiliary;index"/>
+                    <property value="11" name="auxiliary;index"/>
+                    <property value="11" name="auxiliary;index"/>
+                    <property value="11" name="auxiliary;index"/>
+                    <property value="11" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/core/session-variable-transformer" name="lookupGameEndTime" entity-id="Session Variable#5">
+                <properties>
+                    <property value="http://www.mulesoft.org/schema/mule/core/set-session-variable" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="lookupGameEndTime" name="variableName"/>
+                    <property value="#[startTime]" name="value"/>
+                    <property value="12" name="auxiliary;index"/>
+                    <property value="12" name="auxiliary;index"/>
+                    <property value="12" name="auxiliary;index"/>
+                    <property value="12" name="auxiliary;index"/>
+                    <property value="12" name="auxiliary;index"/>
+                    <property value="12" name="auxiliary;index"/>
+                    <property value="12" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/core/session-variable-transformer" name="researchEndTime" entity-id="Session Variable#6">
+                <properties>
+                    <property value="http://www.mulesoft.org/schema/mule/core/set-session-variable" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="fetchApisEndTime" name="variableName"/>
+                    <property value="#[startTime]" name="value"/>
+                    <property value="13" name="auxiliary;index"/>
+                    <property value="13" name="auxiliary;index"/>
+                    <property value="13" name="auxiliary;index"/>
+                    <property value="13" name="auxiliary;index"/>
+                    <property value="13" name="auxiliary;index"/>
+                    <property value="13" name="auxiliary;index"/>
+                    <property value="13" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/core/session-variable-transformer" name="researchEndTime" entity-id="Session Variable#7">
+                <properties>
+                    <property value="http://www.mulesoft.org/schema/mule/core/set-session-variable" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="fetchApisStartTime" name="variableName"/>
+                    <property value="#[startTime]" name="value"/>
+                    <property value="14" name="auxiliary;index"/>
+                    <property value="14" name="auxiliary;index"/>
+                    <property value="14" name="auxiliary;index"/>
+                    <property value="14" name="auxiliary;index"/>
+                    <property value="14" name="auxiliary;index"/>
+                    <property value="14" name="auxiliary;index"/>
+                    <property value="14" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/core/session-variable-transformer" name="researchEndTime" entity-id="Session Variable#8">
+                <properties>
+                    <property value="http://www.mulesoft.org/schema/mule/core/set-session-variable" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="researchEndTime" name="variableName"/>
+                    <property value="#[startTime]" name="value"/>
+                    <property value="15" name="auxiliary;index"/>
+                    <property value="15" name="auxiliary;index"/>
+                    <property value="15" name="auxiliary;index"/>
+                    <property value="15" name="auxiliary;index"/>
+                    <property value="15" name="auxiliary;index"/>
+                    <property value="15" name="auxiliary;index"/>
+                    <property value="15" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/core/session-variable-transformer" name="headlinesEndTime" entity-id="Session Variable#9">
+                <properties>
+                    <property value="http://www.mulesoft.org/schema/mule/core/set-session-variable" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="headlinesEndTime" name="variableName"/>
+                    <property value="#[startTime]" name="value"/>
+                    <property value="16" name="auxiliary;index"/>
+                    <property value="16" name="auxiliary;index"/>
+                    <property value="16" name="auxiliary;index"/>
+                    <property value="16" name="auxiliary;index"/>
+                    <property value="16" name="auxiliary;index"/>
+                    <property value="16" name="auxiliary;index"/>
+                    <property value="16" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/core/session-variable-transformer" name="topNewsEndTime" entity-id="Session Variable#10">
+                <properties>
+                    <property value="http://www.mulesoft.org/schema/mule/core/set-session-variable" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="topNewsEndTime" name="variableName"/>
+                    <property value="#[startTime]" name="value"/>
+                    <property value="17" name="auxiliary;index"/>
+                    <property value="17" name="auxiliary;index"/>
+                    <property value="17" name="auxiliary;index"/>
+                    <property value="17" name="auxiliary;index"/>
+                    <property value="17" name="auxiliary;index"/>
+                    <property value="17" name="auxiliary;index"/>
+                    <property value="17" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/core/session-variable-transformer" name="currentDayEventsEndTime" entity-id="Session Variable#11">
+                <properties>
+                    <property value="http://www.mulesoft.org/schema/mule/core/set-session-variable" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="currentDayEventsEndTime" name="variableName"/>
+                    <property value="#[startTime]" name="value"/>
+                    <property value="18" name="auxiliary;index"/>
+                    <property value="18" name="auxiliary;index"/>
+                    <property value="18" name="auxiliary;index"/>
+                    <property value="18" name="auxiliary;index"/>
+                    <property value="18" name="auxiliary;index"/>
+                    <property value="18" name="auxiliary;index"/>
+                    <property value="18" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/core/session-variable-transformer" name="playersEndTime" entity-id="Session Variable#12">
+                <properties>
+                    <property value="http://www.mulesoft.org/schema/mule/core/set-session-variable" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="playersEndTime" name="variableName"/>
+                    <property value="#[startTime]" name="value"/>
+                    <property value="19" name="auxiliary;index"/>
+                    <property value="19" name="auxiliary;index"/>
+                    <property value="19" name="auxiliary;index"/>
+                    <property value="19" name="auxiliary;index"/>
+                    <property value="19" name="auxiliary;index"/>
+                    <property value="19" name="auxiliary;index"/>
+                    <property value="19" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+        </lane>
+    </flow>
+    <flow SubFlow="false" name="logTimingInfo" entity-id="02b5b82e-29b6-4e6d-9786-a9a4a77b2489">
+        <properties>
+            <property name="processingStrategy2"/>
+            <property name="processingStrategy"/>
+            <property value="20" name="auxiliary;index"/>
+            <property name="bussinessEventsLabel"/>
+            <property name="tracking:enable-default-events"/>
+            <property value="20" name="auxiliary;index"/>
+            <property value="20" name="auxiliary;index"/>
+            <property value="20" name="auxiliary;index"/>
+        </properties>
+        <lane isChoiceOtherwiseLane="false" index="0" hadOnlyOneElement="false" entity-id="compartment-lane#3">
+            <pattern type="http://www.mulesoft.org/schema/mule/core/logger" name="logPayloadSize" entity-id="Logger#1">
+                <properties>
+                    <property value="payload size #[payload.length()]" name="message"/>
+                    <property value="INFO" name="level"/>
+                    <property name="category"/>
+                    <property value="21" name="auxiliary;index"/>
+                    <property value="21" name="auxiliary;index"/>
+                    <property value="21" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/core/session-variable-transformer" name="endTime" entity-id="Session Variable#13">
+                <properties>
+                    <property value="http://www.mulesoft.org/schema/mule/core/set-session-variable" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="endTime" name="variableName"/>
+                    <property value="#[java.lang.System.currentTimeMillis()]" name="value"/>
+                    <property value="22" name="auxiliary;index"/>
+                    <property value="22" name="auxiliary;index"/>
+                    <property value="22" name="auxiliary;index"/>
+                    <property value="22" name="auxiliary;index"/>
+                    <property value="22" name="auxiliary;index"/>
+                    <property value="22" name="auxiliary;index"/>
+                    <property value="22" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/core/logger" name="totalTime" entity-id="Logger#2">
+                <properties>
+                    <property value="totalTime #[endTime - startTime]" name="message"/>
+                    <property value="INFO" name="level"/>
+                    <property name="category"/>
+                    <property value="23" name="auxiliary;index"/>
+                    <property value="23" name="auxiliary;index"/>
+                    <property value="23" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/core/logger" name="lookupGameTime" entity-id="Logger#3">
+                <properties>
+                    <property value="lookupGameTime #[lookupGameEndTime - lookupGameStartTime]" name="message"/>
+                    <property value="INFO" name="level"/>
+                    <property name="category"/>
+                    <property value="24" name="auxiliary;index"/>
+                    <property value="24" name="auxiliary;index"/>
+                    <property value="24" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/core/logger" name="fetchApiTotalTime" entity-id="Logger#4">
+                <properties>
+                    <property value="fetchApisTotalTime #[fetchApisEndTime - fetchApisStartTime]" name="message"/>
+                    <property value="INFO" name="level"/>
+                    <property name="category"/>
+                    <property value="25" name="auxiliary;index"/>
+                    <property value="25" name="auxiliary;index"/>
+                    <property value="25" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/core/logger" name="researchTime" entity-id="Logger#5">
+                <properties>
+                    <property value="researchTime #[researchEndTime - fetchApisStartTime]" name="message"/>
+                    <property value="INFO" name="level"/>
+                    <property name="category"/>
+                    <property value="26" name="auxiliary;index"/>
+                    <property value="26" name="auxiliary;index"/>
+                    <property value="26" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/core/logger" name="headlinesTime" entity-id="Logger#6">
+                <properties>
+                    <property value="headlinesTime #[headlinesEndTime - fetchApisStartTime]" name="message"/>
+                    <property value="INFO" name="level"/>
+                    <property name="category"/>
+                    <property value="27" name="auxiliary;index"/>
+                    <property value="27" name="auxiliary;index"/>
+                    <property value="27" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/core/logger" name="topNewsTime" entity-id="Logger#7">
+                <properties>
+                    <property value="topNewsTime #[topNewsEndTime - fetchApisStartTime]" name="message"/>
+                    <property value="INFO" name="level"/>
+                    <property name="category"/>
+                    <property value="28" name="auxiliary;index"/>
+                    <property value="28" name="auxiliary;index"/>
+                    <property value="28" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/core/logger" name="currentDayEventsTime" entity-id="Logger#8">
+                <properties>
+                    <property value="currentDayEventsTime #[currentDayEventsEndTime - fetchApisStartTime]" name="message"/>
+                    <property value="INFO" name="level"/>
+                    <property name="category"/>
+                    <property value="29" name="auxiliary;index"/>
+                    <property value="29" name="auxiliary;index"/>
+                    <property value="29" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/core/logger" name="playersTime" entity-id="Logger#9">
+                <properties>
+                    <property value="playersTime #[playersEndTime - fetchApisStartTime]" name="message"/>
+                    <property value="INFO" name="level"/>
+                    <property name="category"/>
+                    <property value="30" name="auxiliary;index"/>
+                    <property value="30" name="auxiliary;index"/>
+                    <property value="30" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+        </lane>
+    </flow>
+    <flow SubFlow="false" name="handleHttpQueryStringParams" entity-id="05929213-fdf9-4a18-9efd-9cf8a59aa32b">
+        <properties>
+            <property name="processingStrategy2"/>
+            <property name="processingStrategy"/>
+            <property value="31" name="auxiliary;index"/>
+            <property name="bussinessEventsLabel"/>
+            <property name="tracking:enable-default-events"/>
+            <property value="31" name="auxiliary;index"/>
+            <property value="31" name="auxiliary;index"/>
+            <property value="31" name="auxiliary;index"/>
+        </properties>
+        <lane isChoiceOtherwiseLane="false" index="0" hadOnlyOneElement="false" entity-id="compartment-lane#4">
+            <splitter index="32" type="org.mule.tooling.ui.modules.core.pattern.cbr" name="Choice" entity-id="Choice#1">
+                <properties>
+                    <property-collection name="7211885a-282d-446b-a040-2321400e2b52">
+                        <property value="#[message.inboundProperties['http.query.params']['gameId'] != null]" name="choice.expression"/>
+                        <property-collection name="choice.attributes">
+                            <property value="#[message.inboundProperties['http.query.params']['gameId'] != null]" name="expression"/>
+                        </property-collection>
+                    </property-collection>
+                    <property-collection name="b7110b7b-868e-4e1d-8a64-d7a156f1b3dd">
+                        <property value="true" name="choice.otherwise"/>
+                        <property-collection name="choice.attributes"/>
+                    </property-collection>
+                </properties>
+                <pattern type="org.mule.tooling.ui.modules.core.pattern.cbr" name="Choice" entity-id="Choice#2"/>
+                <compartment entity-id="compartment#1">
+                    <lane isChoiceOtherwiseLane="false" index="34" hadOnlyOneElement="false" entity-id="7211885a-282d-446b-a040-2321400e2b52">
+                        <pattern type="http://www.mulesoft.org/schema/mule/core/session-variable-transformer" name="setGameIdVar" entity-id="Session Variable#14">
+                            <properties>
+<property value="http://www.mulesoft.org/schema/mule/core/set-session-variable" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+<property value="gameId" name="variableName"/>
+<property value="#[message.inboundProperties['http.query.params']['gameId'] ]" name="value"/>
+<property value="35" name="auxiliary;index"/>
+<property value="35" name="auxiliary;index"/>
+<property value="35" name="auxiliary;index"/>
+<property value="35" name="auxiliary;index"/>
+<property value="35" name="auxiliary;index"/>
+<property value="35" name="auxiliary;index"/>
+<property value="35" name="auxiliary;index"/>
+                            </properties>
+                        </pattern>
+                        <pattern type="http://www.mulesoft.org/schema/mule/core/logger" name="Logger" entity-id="Logger#10">
+                            <properties>
+<property value="gameId: #[ gameId ]" name="message"/>
+<property value="INFO" name="level"/>
+<property name="category"/>
+<property value="36" name="auxiliary;index"/>
+<property value="36" name="auxiliary;index"/>
+<property value="36" name="auxiliary;index"/>
+                            </properties>
+                        </pattern>
+                        <pattern type="http://www.mulesoft.org/schema/mule/core/flow-ref" name="fetchGameIfExists" entity-id="Flow Reference#3">
+                            <properties>
+<property value="handleGameIfExists" name="name"/>
+<property value="37" name="auxiliary;index"/>
+<property value="37" name="auxiliary;index"/>
+<property value="37" name="auxiliary;index"/>
+                            </properties>
+                        </pattern>
+                        <pattern type="http://www.mulesoft.org/schema/mule/core/set-payload" name="convertPayloadToString" entity-id="Set Payload#1">
+                            <properties>
+<property value="#[message.payload.toString()]" name="value"/>
+<property value="38" name="auxiliary;index"/>
+<property value="38" name="auxiliary;index"/>
+<property value="38" name="auxiliary;index"/>
+                            </properties>
+                        </pattern>
+                        <pattern type="http://www.mulesoft.org/schema/mule/core/flow-ref" name="logTimingInfo" entity-id="Flow Reference#4">
+                            <properties>
+<property value="logTimingInfo" name="name"/>
+<property value="39" name="auxiliary;index"/>
+<property value="39" name="auxiliary;index"/>
+<property value="39" name="auxiliary;index"/>
+                            </properties>
+                        </pattern>
+                    </lane>
+                    <lane isChoiceOtherwiseLane="true" index="41" hadOnlyOneElement="true" entity-id="b7110b7b-868e-4e1d-8a64-d7a156f1b3dd">
+                        <pattern type="http://www.mulesoft.org/schema/mule/core/set-payload" name="incompleteQueryStringParams" entity-id="Set Payload#2">
+                            <properties>
+<property value="gameId is required try - 330750026" name="value"/>
+<property value="41" name="auxiliary;index"/>
+<property value="41" name="auxiliary;index"/>
+<property value="41" name="auxiliary;index"/>
+                            </properties>
+                        </pattern>
+                    </lane>
+                </compartment>
+            </splitter>
+        </lane>
+    </flow>
+    <flow SubFlow="false" name="logJsonObjectValues" entity-id="b0518537-1efd-4024-af0d-0819f4a32346">
+        <properties>
+            <property name="processingStrategy2"/>
+            <property name="processingStrategy"/>
+            <property value="42" name="auxiliary;index"/>
+            <property name="bussinessEventsLabel"/>
+            <property name="tracking:enable-default-events"/>
+            <property value="42" name="auxiliary;index"/>
+            <property value="42" name="auxiliary;index"/>
+            <property value="42" name="auxiliary;index"/>
+        </properties>
+        <lane isChoiceOtherwiseLane="false" index="0" hadOnlyOneElement="false" entity-id="compartment-lane#5">
+            <pattern type="http://www.mulesoft.org/schema/mule/core/logger" name="gameJSON.has.sports" entity-id="Logger#11">
+                <properties>
+                    <property value="gameJSON has sports #[ gameJSON.has('sports') ] " name="message"/>
+                    <property value="INFO" name="level"/>
+                    <property name="category"/>
+                    <property value="43" name="auxiliary;index"/>
+                    <property value="43" name="auxiliary;index"/>
+                    <property value="43" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/core/logger" name="gameJSON.sports.length" entity-id="Logger#12">
+                <properties>
+                    <property value="gameJSON.sports.length #[ gameJSON.get('sports').length() ] " name="message"/>
+                    <property value="INFO" name="level"/>
+                    <property name="category"/>
+                    <property value="44" name="auxiliary;index"/>
+                    <property value="44" name="auxiliary;index"/>
+                    <property value="44" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/core/logger" name="gameJSON.sports.0.has.leagues" entity-id="Logger#13">
+                <properties>
+                    <property value="gameJSON.sports.0.has.leagues #[gameJSON.get('sports').get(0).has('leagues')] " name="message"/>
+                    <property value="INFO" name="level"/>
+                    <property name="category"/>
+                    <property value="45" name="auxiliary;index"/>
+                    <property value="45" name="auxiliary;index"/>
+                    <property value="45" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/core/logger" name="gameJSON.sports.0.leagues.length" entity-id="Logger#14">
+                <properties>
+                    <property value="gameJSON.sports.0.leagues.length #[gameJSON.get('sports').get(0).get('leagues').length()] " name="message"/>
+                    <property value="INFO" name="level"/>
+                    <property name="category"/>
+                    <property value="46" name="auxiliary;index"/>
+                    <property value="46" name="auxiliary;index"/>
+                    <property value="46" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/core/logger" name="gameJSON.sports.0.leagues.0.has.events" entity-id="Logger#15">
+                <properties>
+                    <property value="gameJSON.sports.0.leagues.0.has.events #[gameJSON.get('sports').get(0).get('leagues').get(0).has('events')]" name="message"/>
+                    <property value="INFO" name="level"/>
+                    <property name="category"/>
+                    <property value="47" name="auxiliary;index"/>
+                    <property value="47" name="auxiliary;index"/>
+                    <property value="47" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/core/logger" name="gameJSON.sports.0.leagues.0.events.length" entity-id="Logger#16">
+                <properties>
+                    <property value="gameJSON.sports.0.leagues.0.events.length: #[gameJSON.get('sports').get(0).get('leagues').get(0).get('events').length()]" name="message"/>
+                    <property value="INFO" name="level"/>
+                    <property name="category"/>
+                    <property value="48" name="auxiliary;index"/>
+                    <property value="48" name="auxiliary;index"/>
+                    <property value="48" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/core/logger" name="Logger" entity-id="Logger#17">
+                <properties>
+                    <property value="#[gameJSON.toString()]" name="message"/>
+                    <property value="INFO" name="level"/>
+                    <property name="category"/>
+                    <property value="49" name="auxiliary;index"/>
+                    <property value="49" name="auxiliary;index"/>
+                    <property value="49" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+        </lane>
+    </flow>
+    <flow SubFlow="false" name="handleGameIfExists" entity-id="581d7a7e-53f8-45de-a516-42348b9b211c">
+        <properties>
+            <property name="processingStrategy2"/>
+            <property name="processingStrategy"/>
+            <property value="50" name="auxiliary;index"/>
+            <property name="bussinessEventsLabel"/>
+            <property name="tracking:enable-default-events"/>
+            <property value="50" name="auxiliary;index"/>
+            <property value="50" name="auxiliary;index"/>
+            <property value="50" name="auxiliary;index"/>
+        </properties>
+        <lane isChoiceOtherwiseLane="false" index="0" hadOnlyOneElement="false" entity-id="compartment-lane#6">
+            <pattern type="http://www.mulesoft.org/schema/mule/core/flow-ref" name="lookupTheGame" entity-id="Flow Reference#5">
+                <properties>
+                    <property value="lookupGame" name="name"/>
+                    <property value="51" name="auxiliary;index"/>
+                    <property value="51" name="auxiliary;index"/>
+                    <property value="51" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/core/session-variable-transformer" name="gameJSONVar" entity-id="Session Variable#15">
+                <properties>
+                    <property value="http://www.mulesoft.org/schema/mule/core/set-session-variable" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="gameJSON" name="variableName"/>
+                    <property value="#[message.payload]" name="value"/>
+                    <property value="52" name="auxiliary;index"/>
+                    <property value="52" name="auxiliary;index"/>
+                    <property value="52" name="auxiliary;index"/>
+                    <property value="52" name="auxiliary;index"/>
+                    <property value="52" name="auxiliary;index"/>
+                    <property value="52" name="auxiliary;index"/>
+                    <property value="52" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/core/flow-ref" name="logChoiceValues" entity-id="Flow Reference#6">
+                <properties>
+                    <property value="logJsonObjectValues" name="name"/>
+                    <property value="53" name="auxiliary;index"/>
+                    <property value="53" name="auxiliary;index"/>
+                    <property value="53" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <splitter index="54" type="org.mule.tooling.ui.modules.core.pattern.cbr" name="Choice" entity-id="Choice#3">
+                <properties>
+                    <property-collection name="c10f6453-be8a-41fe-ba90-1767879c22ed">
+                        <property value="#[ gameJSON.has('sports') and gameJSON.get('sports').length() == 1 and gameJSON.get('sports').get(0).has('leagues') and gameJSON.get('sports').get(0).get('leagues').length() == 1 and gameJSON.get('sports').get(0).get('leagues').get(0).has('events') and gameJSON.get('sports').get(0).get('leagues').get(0).get('events').length() == 1 ]" name="choice.expression"/>
+                        <property-collection name="choice.attributes">
+                            <property value="#[ gameJSON.has('sports') and gameJSON.get('sports').length() == 1 and gameJSON.get('sports').get(0).has('leagues') and gameJSON.get('sports').get(0).get('leagues').length() == 1 and gameJSON.get('sports').get(0).get('leagues').get(0).has('events') and gameJSON.get('sports').get(0).get('leagues').get(0).get('events').length() == 1 ]" name="expression"/>
+                        </property-collection>
+                    </property-collection>
+                    <property-collection name="5cdc245b-d752-499f-b477-7ae304e47f34">
+                        <property value="true" name="choice.otherwise"/>
+                        <property-collection name="choice.attributes"/>
+                    </property-collection>
+                </properties>
+                <pattern type="org.mule.tooling.ui.modules.core.pattern.cbr" name="Choice" entity-id="Choice#4"/>
+                <compartment entity-id="compartment#2">
+                    <lane isChoiceOtherwiseLane="false" index="56" hadOnlyOneElement="false" entity-id="c10f6453-be8a-41fe-ba90-1767879c22ed">
+                        <pattern type="http://www.mulesoft.org/schema/mule/core/flow-ref" name="setEventVariablesFromJSONObjectPayload" entity-id="Flow Reference#7">
+                            <properties>
+<property value="setEventVariablesFromJSONObject" name="name"/>
+<property value="57" name="auxiliary;index"/>
+<property value="57" name="auxiliary;index"/>
+<property value="57" name="auxiliary;index"/>
+                            </properties>
+                        </pattern>
+                        <pattern type="http://www.mulesoft.org/schema/mule/core/flow-ref" name="fetchApis" entity-id="Flow Reference#8">
+                            <properties>
+<property value="fetchResearchHeadlinesNewsTeamsPlayers" name="name"/>
+<property value="58" name="auxiliary;index"/>
+<property value="58" name="auxiliary;index"/>
+<property value="58" name="auxiliary;index"/>
+                            </properties>
+                        </pattern>
+                    </lane>
+                    <lane isChoiceOtherwiseLane="true" index="60" hadOnlyOneElement="true" entity-id="5cdc245b-d752-499f-b477-7ae304e47f34">
+                        <pattern type="http://www.mulesoft.org/schema/mule/core/logger" name="logThatGamIdDoesNotExist" entity-id="Logger#18">
+                            <properties>
+<property value="gameId not found" name="message"/>
+<property value="INFO" name="level"/>
+<property name="category"/>
+<property value="60" name="auxiliary;index"/>
+<property value="60" name="auxiliary;index"/>
+<property value="60" name="auxiliary;index"/>
+                            </properties>
+                        </pattern>
+                    </lane>
+                </compartment>
+            </splitter>
+        </lane>
+    </flow>
+    <flow SubFlow="false" name="fetchResearchHeadlinesNewsTeamsPlayers" entity-id="3e4a89b6-3cb8-4c42-8826-3210b5ef8c9c">
+        <properties>
+            <property name="processingStrategy2"/>
+            <property name="processingStrategy"/>
+            <property value="61" name="auxiliary;index"/>
+            <property name="bussinessEventsLabel"/>
+            <property name="tracking:enable-default-events"/>
+            <property value="61" name="auxiliary;index"/>
+            <property value="61" name="auxiliary;index"/>
+            <property value="61" name="auxiliary;index"/>
+        </properties>
+        <lane isChoiceOtherwiseLane="false" index="0" hadOnlyOneElement="false" entity-id="compartment-lane#7">
+            <pattern type="http://www.mulesoft.org/schema/mule/core/session-variable-transformer" name="fetchApisStartTime" entity-id="Session Variable#16">
+                <properties>
+                    <property value="http://www.mulesoft.org/schema/mule/core/set-session-variable" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="fetchApisStartTime" name="variableName"/>
+                    <property value="#[java.lang.Long.valueOf(java.lang.System.currentTimeMillis())]" name="value"/>
+                    <property value="62" name="auxiliary;index"/>
+                    <property value="62" name="auxiliary;index"/>
+                    <property value="62" name="auxiliary;index"/>
+                    <property value="62" name="auxiliary;index"/>
+                    <property value="62" name="auxiliary;index"/>
+                    <property value="62" name="auxiliary;index"/>
+                    <property value="62" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <splitter index="63" type="org.mule.tooling.ui.modules.core.pattern.all" name="All" entity-id="All#1">
+                <pattern type="org.mule.tooling.ui.modules.core.pattern.all" name="All" entity-id="All#2"/>
+                <compartment entity-id="compartment#3">
+                    <lane isChoiceOtherwiseLane="false" index="64" hadOnlyOneElement="true" entity-id="fbf64255-ca09-42a0-a1ae-91067495e8f4">
+                        <pattern type="http://www.mulesoft.org/schema/mule/core/flow-ref" name="researchNotesByTeams" entity-id="Flow Reference#9">
+                            <properties>
+<property value="researchNotesByTeams" name="name"/>
+<property value="64" name="auxiliary;index"/>
+<property value="64" name="auxiliary;index"/>
+<property value="64" name="auxiliary;index"/>
+                            </properties>
+                        </pattern>
+                    </lane>
+                    <lane isChoiceOtherwiseLane="false" index="65" hadOnlyOneElement="true" entity-id="633af314-84aa-4547-bdaa-84b83197da8e">
+                        <pattern type="http://www.mulesoft.org/schema/mule/core/flow-ref" name="headlinesBySportLeague" entity-id="Flow Reference#10">
+                            <properties>
+<property value="headlinesBySportLeague" name="name"/>
+<property value="65" name="auxiliary;index"/>
+<property value="65" name="auxiliary;index"/>
+<property value="65" name="auxiliary;index"/>
+                            </properties>
+                        </pattern>
+                    </lane>
+                    <lane isChoiceOtherwiseLane="false" index="66" hadOnlyOneElement="true" entity-id="5d4fa9d0-b37c-43f3-9cd9-7bed93e44b36">
+                        <pattern type="http://www.mulesoft.org/schema/mule/core/flow-ref" name="topNewsBySportLeague" entity-id="Flow Reference#11">
+                            <properties>
+<property value="topNewsBySportLeague" name="name"/>
+<property value="66" name="auxiliary;index"/>
+<property value="66" name="auxiliary;index"/>
+<property value="66" name="auxiliary;index"/>
+                            </properties>
+                        </pattern>
+                    </lane>
+                    <lane isChoiceOtherwiseLane="false" index="67" hadOnlyOneElement="true" entity-id="b21b775b-56c3-498c-a1b4-7bf227e848be">
+                        <pattern type="http://www.mulesoft.org/schema/mule/core/flow-ref" name="currentDayEventsBySportLeague" entity-id="Flow Reference#12">
+                            <properties>
+<property value="currentDayEventsBySportLeague" name="name"/>
+<property value="67" name="auxiliary;index"/>
+<property value="67" name="auxiliary;index"/>
+<property value="67" name="auxiliary;index"/>
+                            </properties>
+                        </pattern>
+                    </lane>
+                    <lane isChoiceOtherwiseLane="false" index="68" hadOnlyOneElement="true" entity-id="e1f5bfe4-5945-491c-8a45-be1f768ee9ea">
+                        <pattern type="http://www.mulesoft.org/schema/mule/core/flow-ref" name="playersByHomeAwayTeam" entity-id="Flow Reference#13">
+                            <properties>
+<property value="playersByHomeAwayTeam" name="name"/>
+<property value="68" name="auxiliary;index"/>
+<property value="68" name="auxiliary;index"/>
+<property value="68" name="auxiliary;index"/>
+                            </properties>
+                        </pattern>
+                    </lane>
+                </compartment>
+            </splitter>
+            <pattern type="http://www.mulesoft.org/schema/mule/core/session-variable-transformer" name="fetchApiEndTime" entity-id="Session Variable#17">
+                <properties>
+                    <property value="http://www.mulesoft.org/schema/mule/core/set-session-variable" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="fetchApisEndTime" name="variableName"/>
+                    <property value="#[java.lang.Long.valueOf(java.lang.System.currentTimeMillis())]" name="value"/>
+                    <property value="69" name="auxiliary;index"/>
+                    <property value="69" name="auxiliary;index"/>
+                    <property value="69" name="auxiliary;index"/>
+                    <property value="69" name="auxiliary;index"/>
+                    <property value="69" name="auxiliary;index"/>
+                    <property value="69" name="auxiliary;index"/>
+                    <property value="69" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/core/set-payload" name="jsonObjectsToList" entity-id="Set Payload#3">
+                <properties>
+                    <property value="#[new java.util.ArrayList(payload)]" name="value"/>
+                    <property value="70" name="auxiliary;index"/>
+                    <property value="70" name="auxiliary;index"/>
+                    <property value="70" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+        </lane>
+    </flow>
+    <description></description>
+</mule-configuration>

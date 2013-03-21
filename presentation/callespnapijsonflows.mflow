@@ -1,0 +1,684 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mule-configuration xmlns="http://www.mulesoft.com/tooling/messageflow" name="callESPNApiJSONFlows">
+    <flow SubFlow="false" name="setEventVariablesFromJSONObject" entity-id="e4650339-a076-44fe-8978-5072b98ac135">
+        <properties>
+            <property name="processingStrategy2"/>
+            <property name="processingStrategy"/>
+            <property value="1" name="auxiliary;index"/>
+            <property name="bussinessEventsLabel"/>
+            <property name="tracking:enable-default-events"/>
+            <property value="1" name="auxiliary;index"/>
+            <property value="1" name="auxiliary;index"/>
+            <property value="1" name="auxiliary;index"/>
+        </properties>
+        <lane isChoiceOtherwiseLane="false" index="0" hadOnlyOneElement="false" entity-id="compartment-lane#1">
+            <pattern type="http://www.mulesoft.org/schema/mule/core/session-variable-transformer" name="setEventVariableFromJSONObject" entity-id="Session Variable#1">
+                <properties>
+                    <property value="http://www.mulesoft.org/schema/mule/core/set-session-variable" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="event" name="variableName"/>
+                    <property value="#[message.payload.get('sports').get(0).get('leagues').get(0).get('events').get(0)]" name="value"/>
+                    <property value="2" name="auxiliary;index"/>
+                    <property value="2" name="auxiliary;index"/>
+                    <property value="2" name="auxiliary;index"/>
+                    <property value="2" name="auxiliary;index"/>
+                    <property value="2" name="auxiliary;index"/>
+                    <property value="2" name="auxiliary;index"/>
+                    <property value="2" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/core/session-variable-transformer" name="setHomeTeamFromJSONObject" entity-id="Session Variable#2">
+                <properties>
+                    <property value="http://www.mulesoft.org/schema/mule/core/set-session-variable" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="homeTeam" name="variableName"/>
+                    <property value="#[event.get('competitions').get(0).get('competitors').get(0)]" name="value"/>
+                    <property value="3" name="auxiliary;index"/>
+                    <property value="3" name="auxiliary;index"/>
+                    <property value="3" name="auxiliary;index"/>
+                    <property value="3" name="auxiliary;index"/>
+                    <property value="3" name="auxiliary;index"/>
+                    <property value="3" name="auxiliary;index"/>
+                    <property value="3" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/core/session-variable-transformer" name="setAwayTeamFromJSONObect" entity-id="Session Variable#3">
+                <properties>
+                    <property value="http://www.mulesoft.org/schema/mule/core/set-session-variable" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="awayTeam" name="variableName"/>
+                    <property value="#[event.get('competitions').get(0).get('competitors').get(0)]" name="value"/>
+                    <property value="4" name="auxiliary;index"/>
+                    <property value="4" name="auxiliary;index"/>
+                    <property value="4" name="auxiliary;index"/>
+                    <property value="4" name="auxiliary;index"/>
+                    <property value="4" name="auxiliary;index"/>
+                    <property value="4" name="auxiliary;index"/>
+                    <property value="4" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+        </lane>
+    </flow>
+    <flow SubFlow="false" name="lookupGame" entity-id="91c09ad7-4ec7-4db2-8071-d19b67f11828">
+        <properties>
+            <property name="processingStrategy2"/>
+            <property name="processingStrategy"/>
+            <property value="5" name="auxiliary;index"/>
+            <property name="bussinessEventsLabel"/>
+            <property name="tracking:enable-default-events"/>
+            <property value="5" name="auxiliary;index"/>
+            <property value="5" name="auxiliary;index"/>
+            <property value="5" name="auxiliary;index"/>
+        </properties>
+        <lane isChoiceOtherwiseLane="false" index="0" hadOnlyOneElement="false" entity-id="compartment-lane#2">
+            <pattern type="http://www.mulesoft.org/schema/mule/core/session-variable-transformer" name="lookupGameStartTime" entity-id="Session Variable#4">
+                <properties>
+                    <property value="http://www.mulesoft.org/schema/mule/core/set-session-variable" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="lookupGameStartTime" name="variableName"/>
+                    <property value="#[java.lang.System.currentTimeMillis()]" name="value"/>
+                    <property value="6" name="auxiliary;index"/>
+                    <property value="6" name="auxiliary;index"/>
+                    <property value="6" name="auxiliary;index"/>
+                    <property value="6" name="auxiliary;index"/>
+                    <property value="6" name="auxiliary;index"/>
+                    <property value="6" name="auxiliary;index"/>
+                    <property value="6" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/espnapi/espnapi-connector" name="eventBySportLeagueEventId" entity-id="ESPN Dev Center API#1">
+                <properties>
+                    <property value="ESPN_Dev_Center_API" name="config-ref"/>
+                    <property value="http://www.mulesoft.org/schema/mule/espnapi/event-by-sport-league-eventid" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="ESPN_Dev_Center_API" name="config-ref"/>
+                    <property value="7" name="auxiliary;index"/>
+                    <property value="#[gameId]" name="eventid"/>
+                    <property value="#[league]" name="league"/>
+                    <property value="#[sport]" name="sport"/>
+                    <property value="7" name="auxiliary;index"/>
+                    <property value="7" name="auxiliary;index"/>
+                    <property value="7" name="auxiliary;index"/>
+                    <property value="7" name="auxiliary;index"/>
+                    <property value="7" name="auxiliary;index"/>
+                    <property value="7" name="auxiliary;index"/>
+                    <property value="7" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/naivejsonmergediff/naivejsonmergediff-connector" name="parseJSON" entity-id="Naivejsonmergediff#1">
+                <properties>
+                    <property value="Naivejsonmergediff" name="config-ref"/>
+                    <property value="http://www.mulesoft.org/schema/mule/naivejsonmergediff/parse-json" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="Naivejsonmergediff" name="config-ref"/>
+                    <property value="8" name="auxiliary;index"/>
+                    <property value="#[message.payload]" name="json"/>
+                    <property value="8" name="auxiliary;index"/>
+                    <property value="8" name="auxiliary;index"/>
+                    <property value="8" name="auxiliary;index"/>
+                    <property value="8" name="auxiliary;index"/>
+                    <property value="8" name="auxiliary;index"/>
+                    <property value="8" name="auxiliary;index"/>
+                    <property value="8" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/core/session-variable-transformer" name="lookupGameEnd" entity-id="Session Variable#5">
+                <properties>
+                    <property value="http://www.mulesoft.org/schema/mule/core/set-session-variable" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="lookupGameEndTime" name="variableName"/>
+                    <property value="#[java.lang.System.currentTimeMillis()]" name="value"/>
+                    <property value="9" name="auxiliary;index"/>
+                    <property value="9" name="auxiliary;index"/>
+                    <property value="9" name="auxiliary;index"/>
+                    <property value="9" name="auxiliary;index"/>
+                    <property value="9" name="auxiliary;index"/>
+                    <property value="9" name="auxiliary;index"/>
+                    <property value="9" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <scope type="http://www.mulesoft.org/schema/mule/core/catch-exception-strategy" name="Catch Exception Strategy" entity-id="Catch Exception Strategy#1">
+                <properties>
+                    <property name="labelConfigureConditionalExecutionUsingExpression"/>
+                    <property name="when"/>
+                    <property name="enableNotifications"/>
+                    <property value="10" name="auxiliary;index"/>
+                    <property value="10" name="auxiliary;index"/>
+                    <property value="10" name="auxiliary;index"/>
+                </properties>
+                <compartment entity-id="compartment#1">
+                    <lane isChoiceOtherwiseLane="false" index="0" hadOnlyOneElement="false" entity-id="compartment-lane#3">
+                        <pattern type="http://www.mulesoft.org/schema/mule/core/logger" name="invalidJSONReponseFromESPNApi" entity-id="Logger#1">
+                            <properties>
+<property value="#[exception]" name="message"/>
+<property value="INFO" name="level"/>
+<property name="category"/>
+<property value="11" name="auxiliary;index"/>
+<property value="11" name="auxiliary;index"/>
+<property value="11" name="auxiliary;index"/>
+                            </properties>
+                        </pattern>
+                        <pattern type="http://www.mulesoft.org/schema/mule/naivejsonmergediff/naivejsonmergediff-connector" name="setErrorJsonPayload" entity-id="Naivejsonmergediff#2">
+                            <properties>
+<property value="Naivejsonmergediff" name="config-ref"/>
+<property value="http://www.mulesoft.org/schema/mule/naivejsonmergediff/parse-json" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+<property value="Naivejsonmergediff" name="config-ref"/>
+<property value="12" name="auxiliary;index"/>
+<property value="{ 'error' : 'invalid json' }" name="json"/>
+<property value="12" name="auxiliary;index"/>
+<property value="12" name="auxiliary;index"/>
+<property value="12" name="auxiliary;index"/>
+<property value="12" name="auxiliary;index"/>
+<property value="12" name="auxiliary;index"/>
+<property value="12" name="auxiliary;index"/>
+<property value="12" name="auxiliary;index"/>
+                            </properties>
+                        </pattern>
+                    </lane>
+                </compartment>
+            </scope>
+        </lane>
+    </flow>
+    <flow SubFlow="false" name="researchNotesByTeams" entity-id="c79c7752-bb0d-4fb3-8f4c-b922cd93fa3e">
+        <properties>
+            <property name="processingStrategy2"/>
+            <property name="processingStrategy"/>
+            <property value="13" name="auxiliary;index"/>
+            <property name="bussinessEventsLabel"/>
+            <property name="tracking:enable-default-events"/>
+            <property value="13" name="auxiliary;index"/>
+            <property value="13" name="auxiliary;index"/>
+            <property value="13" name="auxiliary;index"/>
+        </properties>
+        <lane isChoiceOtherwiseLane="false" index="0" hadOnlyOneElement="false" entity-id="compartment-lane#4">
+            <pattern type="http://www.mulesoft.org/schema/mule/espnapi/espnapi-connector" name="researchNotesByHomeTeam" entity-id="ESPN Dev Center API#2">
+                <properties>
+                    <property value="ESPN_Dev_Center_API" name="config-ref"/>
+                    <property value="http://www.mulesoft.org/schema/mule/espnapi/latest-research-notes-by-sport-league-teams" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="ESPN_Dev_Center_API" name="config-ref"/>
+                    <property value="14" name="auxiliary;index"/>
+                    <property value="#[league]" name="league"/>
+                    <property value="10" name="limit"/>
+                    <property value="#[sport]" name="sport"/>
+                    <property value="'#[homeTeam],#[awayTeam]'" name="teams"/>
+                    <property value="14" name="auxiliary;index"/>
+                    <property value="14" name="auxiliary;index"/>
+                    <property value="14" name="auxiliary;index"/>
+                    <property value="14" name="auxiliary;index"/>
+                    <property value="14" name="auxiliary;index"/>
+                    <property value="14" name="auxiliary;index"/>
+                    <property value="14" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/naivejsonmergediff/naivejsonmergediff-connector" name="convertToJSONObject" entity-id="Naivejsonmergediff#3">
+                <properties>
+                    <property value="Naivejsonmergediff" name="config-ref"/>
+                    <property value="http://www.mulesoft.org/schema/mule/naivejsonmergediff/parse-json" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="Naivejsonmergediff" name="config-ref"/>
+                    <property value="15" name="auxiliary;index"/>
+                    <property value="#[payload]" name="json"/>
+                    <property value="15" name="auxiliary;index"/>
+                    <property value="15" name="auxiliary;index"/>
+                    <property value="15" name="auxiliary;index"/>
+                    <property value="15" name="auxiliary;index"/>
+                    <property value="15" name="auxiliary;index"/>
+                    <property value="15" name="auxiliary;index"/>
+                    <property value="15" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/core/session-variable-transformer" name="researchEndTime" entity-id="Session Variable#6">
+                <properties>
+                    <property value="http://www.mulesoft.org/schema/mule/core/set-session-variable" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="researchEndTime" name="variableName"/>
+                    <property value="#[java.lang.System.currentTimeMillis()]" name="value"/>
+                    <property value="16" name="auxiliary;index"/>
+                    <property value="16" name="auxiliary;index"/>
+                    <property value="16" name="auxiliary;index"/>
+                    <property value="16" name="auxiliary;index"/>
+                    <property value="16" name="auxiliary;index"/>
+                    <property value="16" name="auxiliary;index"/>
+                    <property value="16" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <scope type="http://www.mulesoft.org/schema/mule/core/catch-exception-strategy" name="Catch Exception Strategy" entity-id="Catch Exception Strategy#2">
+                <properties>
+                    <property name="labelConfigureConditionalExecutionUsingExpression"/>
+                    <property name="when"/>
+                    <property name="enableNotifications"/>
+                    <property value="17" name="auxiliary;index"/>
+                    <property value="17" name="auxiliary;index"/>
+                    <property value="17" name="auxiliary;index"/>
+                </properties>
+                <compartment entity-id="compartment#2">
+                    <lane isChoiceOtherwiseLane="false" index="0" hadOnlyOneElement="false" entity-id="compartment-lane#5">
+                        <pattern type="http://www.mulesoft.org/schema/mule/core/logger" name="invalidJSONReponseFromESPNApi" entity-id="Logger#2">
+                            <properties>
+<property value="#[exception]" name="message"/>
+<property value="INFO" name="level"/>
+<property name="category"/>
+<property value="18" name="auxiliary;index"/>
+<property value="18" name="auxiliary;index"/>
+<property value="18" name="auxiliary;index"/>
+                            </properties>
+                        </pattern>
+                        <pattern type="http://www.mulesoft.org/schema/mule/naivejsonmergediff/naivejsonmergediff-connector" name="setErrorJsonPayload" entity-id="Naivejsonmergediff#4">
+                            <properties>
+<property value="Naivejsonmergediff" name="config-ref"/>
+<property value="http://www.mulesoft.org/schema/mule/naivejsonmergediff/parse-json" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+<property value="Naivejsonmergediff" name="config-ref"/>
+<property value="19" name="auxiliary;index"/>
+<property value="{ 'error' : 'invalid json' }" name="json"/>
+<property value="19" name="auxiliary;index"/>
+<property value="19" name="auxiliary;index"/>
+<property value="19" name="auxiliary;index"/>
+<property value="19" name="auxiliary;index"/>
+<property value="19" name="auxiliary;index"/>
+<property value="19" name="auxiliary;index"/>
+<property value="19" name="auxiliary;index"/>
+                            </properties>
+                        </pattern>
+                    </lane>
+                </compartment>
+            </scope>
+        </lane>
+    </flow>
+    <flow SubFlow="false" name="headlinesBySportLeague" entity-id="e3401373-456e-471f-8c72-afdb8fad991e">
+        <properties>
+            <property name="processingStrategy2"/>
+            <property name="processingStrategy"/>
+            <property value="20" name="auxiliary;index"/>
+            <property name="bussinessEventsLabel"/>
+            <property name="tracking:enable-default-events"/>
+            <property value="20" name="auxiliary;index"/>
+            <property value="20" name="auxiliary;index"/>
+            <property value="20" name="auxiliary;index"/>
+        </properties>
+        <lane isChoiceOtherwiseLane="false" index="0" hadOnlyOneElement="false" entity-id="compartment-lane#6">
+            <pattern type="http://www.mulesoft.org/schema/mule/espnapi/espnapi-connector" name="headlinesBySportLeague" entity-id="ESPN Dev Center API#3">
+                <properties>
+                    <property value="ESPN_Dev_Center_API" name="config-ref"/>
+                    <property value="http://www.mulesoft.org/schema/mule/espnapi/top-headlines-by-sport-league" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="ESPN_Dev_Center_API" name="config-ref"/>
+                    <property value="21" name="auxiliary;index"/>
+                    <property value="#[league]" name="league"/>
+                    <property value="#[sport]" name="sport"/>
+                    <property value="21" name="auxiliary;index"/>
+                    <property value="21" name="auxiliary;index"/>
+                    <property value="21" name="auxiliary;index"/>
+                    <property value="21" name="auxiliary;index"/>
+                    <property value="21" name="auxiliary;index"/>
+                    <property value="21" name="auxiliary;index"/>
+                    <property value="21" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/naivejsonmergediff/naivejsonmergediff-connector" name="convertToJSONObject" entity-id="Naivejsonmergediff#5">
+                <properties>
+                    <property value="Naivejsonmergediff" name="config-ref"/>
+                    <property value="http://www.mulesoft.org/schema/mule/naivejsonmergediff/parse-json" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="Naivejsonmergediff" name="config-ref"/>
+                    <property value="22" name="auxiliary;index"/>
+                    <property value="#[payload]" name="json"/>
+                    <property value="22" name="auxiliary;index"/>
+                    <property value="22" name="auxiliary;index"/>
+                    <property value="22" name="auxiliary;index"/>
+                    <property value="22" name="auxiliary;index"/>
+                    <property value="22" name="auxiliary;index"/>
+                    <property value="22" name="auxiliary;index"/>
+                    <property value="22" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/core/session-variable-transformer" name="headlinesEndTime" entity-id="Session Variable#7">
+                <properties>
+                    <property value="http://www.mulesoft.org/schema/mule/core/set-session-variable" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="headlinesEndTime" name="variableName"/>
+                    <property value="#[java.lang.System.currentTimeMillis()]" name="value"/>
+                    <property value="23" name="auxiliary;index"/>
+                    <property value="23" name="auxiliary;index"/>
+                    <property value="23" name="auxiliary;index"/>
+                    <property value="23" name="auxiliary;index"/>
+                    <property value="23" name="auxiliary;index"/>
+                    <property value="23" name="auxiliary;index"/>
+                    <property value="23" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <scope type="http://www.mulesoft.org/schema/mule/core/catch-exception-strategy" name="Catch Exception Strategy" entity-id="Catch Exception Strategy#3">
+                <properties>
+                    <property name="labelConfigureConditionalExecutionUsingExpression"/>
+                    <property name="when"/>
+                    <property name="enableNotifications"/>
+                    <property value="24" name="auxiliary;index"/>
+                    <property value="24" name="auxiliary;index"/>
+                    <property value="24" name="auxiliary;index"/>
+                </properties>
+                <compartment entity-id="compartment#3">
+                    <lane isChoiceOtherwiseLane="false" index="0" hadOnlyOneElement="false" entity-id="compartment-lane#7">
+                        <pattern type="http://www.mulesoft.org/schema/mule/core/logger" name="invalidJSONReponseFromESPNApi" entity-id="Logger#3">
+                            <properties>
+<property value="#[exception]" name="message"/>
+<property value="INFO" name="level"/>
+<property name="category"/>
+<property value="25" name="auxiliary;index"/>
+<property value="25" name="auxiliary;index"/>
+<property value="25" name="auxiliary;index"/>
+                            </properties>
+                        </pattern>
+                        <pattern type="http://www.mulesoft.org/schema/mule/naivejsonmergediff/naivejsonmergediff-connector" name="setErrorJsonPayload" entity-id="Naivejsonmergediff#6">
+                            <properties>
+<property value="Naivejsonmergediff" name="config-ref"/>
+<property value="http://www.mulesoft.org/schema/mule/naivejsonmergediff/parse-json" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+<property value="Naivejsonmergediff" name="config-ref"/>
+<property value="26" name="auxiliary;index"/>
+<property value="{ 'error' : 'invalid json' }" name="json"/>
+<property value="26" name="auxiliary;index"/>
+<property value="26" name="auxiliary;index"/>
+<property value="26" name="auxiliary;index"/>
+<property value="26" name="auxiliary;index"/>
+<property value="26" name="auxiliary;index"/>
+<property value="26" name="auxiliary;index"/>
+<property value="26" name="auxiliary;index"/>
+                            </properties>
+                        </pattern>
+                    </lane>
+                </compartment>
+            </scope>
+        </lane>
+    </flow>
+    <flow SubFlow="false" name="topNewsBySportLeague" entity-id="94e0b2a4-26a0-4f99-b9cd-4cc9b9ce6a4e">
+        <properties>
+            <property name="processingStrategy2"/>
+            <property name="processingStrategy"/>
+            <property value="27" name="auxiliary;index"/>
+            <property name="bussinessEventsLabel"/>
+            <property name="tracking:enable-default-events"/>
+            <property value="27" name="auxiliary;index"/>
+            <property value="27" name="auxiliary;index"/>
+            <property value="27" name="auxiliary;index"/>
+        </properties>
+        <lane isChoiceOtherwiseLane="false" index="0" hadOnlyOneElement="false" entity-id="compartment-lane#8">
+            <pattern type="http://www.mulesoft.org/schema/mule/espnapi/espnapi-connector" name="topNewsBySportLeague" entity-id="ESPN Dev Center API#4">
+                <properties>
+                    <property value="ESPN_Dev_Center_API" name="config-ref"/>
+                    <property value="http://www.mulesoft.org/schema/mule/espnapi/top-news-by-sport-league" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="ESPN_Dev_Center_API" name="config-ref"/>
+                    <property value="28" name="auxiliary;index"/>
+                    <property value="#[league]" name="league"/>
+                    <property value="#[sport]" name="sport"/>
+                    <property value="28" name="auxiliary;index"/>
+                    <property value="28" name="auxiliary;index"/>
+                    <property value="28" name="auxiliary;index"/>
+                    <property value="28" name="auxiliary;index"/>
+                    <property value="28" name="auxiliary;index"/>
+                    <property value="28" name="auxiliary;index"/>
+                    <property value="28" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/naivejsonmergediff/naivejsonmergediff-connector" name="convertToJSONObject" entity-id="Naivejsonmergediff#7">
+                <properties>
+                    <property value="Naivejsonmergediff" name="config-ref"/>
+                    <property value="http://www.mulesoft.org/schema/mule/naivejsonmergediff/parse-json" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="Naivejsonmergediff" name="config-ref"/>
+                    <property value="29" name="auxiliary;index"/>
+                    <property value="#[payload]" name="json"/>
+                    <property value="29" name="auxiliary;index"/>
+                    <property value="29" name="auxiliary;index"/>
+                    <property value="29" name="auxiliary;index"/>
+                    <property value="29" name="auxiliary;index"/>
+                    <property value="29" name="auxiliary;index"/>
+                    <property value="29" name="auxiliary;index"/>
+                    <property value="29" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/core/session-variable-transformer" name="topNewsEndTime" entity-id="Session Variable#8">
+                <properties>
+                    <property value="http://www.mulesoft.org/schema/mule/core/set-session-variable" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="topNewsEndTime" name="variableName"/>
+                    <property value="#[java.lang.System.currentTimeMillis()]" name="value"/>
+                    <property value="30" name="auxiliary;index"/>
+                    <property value="30" name="auxiliary;index"/>
+                    <property value="30" name="auxiliary;index"/>
+                    <property value="30" name="auxiliary;index"/>
+                    <property value="30" name="auxiliary;index"/>
+                    <property value="30" name="auxiliary;index"/>
+                    <property value="30" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <scope type="http://www.mulesoft.org/schema/mule/core/catch-exception-strategy" name="Catch Exception Strategy" entity-id="Catch Exception Strategy#4">
+                <properties>
+                    <property name="labelConfigureConditionalExecutionUsingExpression"/>
+                    <property name="when"/>
+                    <property name="enableNotifications"/>
+                    <property value="31" name="auxiliary;index"/>
+                    <property value="31" name="auxiliary;index"/>
+                    <property value="31" name="auxiliary;index"/>
+                </properties>
+                <compartment entity-id="compartment#4">
+                    <lane isChoiceOtherwiseLane="false" index="0" hadOnlyOneElement="false" entity-id="compartment-lane#9">
+                        <pattern type="http://www.mulesoft.org/schema/mule/core/logger" name="invalidJSONReponseFromESPNApi" entity-id="Logger#4">
+                            <properties>
+<property value="#[exception]" name="message"/>
+<property value="INFO" name="level"/>
+<property name="category"/>
+<property value="32" name="auxiliary;index"/>
+<property value="32" name="auxiliary;index"/>
+<property value="32" name="auxiliary;index"/>
+                            </properties>
+                        </pattern>
+                        <pattern type="http://www.mulesoft.org/schema/mule/naivejsonmergediff/naivejsonmergediff-connector" name="setErrorJsonPayload" entity-id="Naivejsonmergediff#8">
+                            <properties>
+<property value="Naivejsonmergediff" name="config-ref"/>
+<property value="http://www.mulesoft.org/schema/mule/naivejsonmergediff/parse-json" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+<property value="Naivejsonmergediff" name="config-ref"/>
+<property value="33" name="auxiliary;index"/>
+<property value="{ 'error' : 'invalid json' }" name="json"/>
+<property value="33" name="auxiliary;index"/>
+<property value="33" name="auxiliary;index"/>
+<property value="33" name="auxiliary;index"/>
+<property value="33" name="auxiliary;index"/>
+<property value="33" name="auxiliary;index"/>
+<property value="33" name="auxiliary;index"/>
+<property value="33" name="auxiliary;index"/>
+                            </properties>
+                        </pattern>
+                    </lane>
+                </compartment>
+            </scope>
+        </lane>
+    </flow>
+    <flow SubFlow="false" name="currentDayEventsBySportLeague" entity-id="d8648a70-5208-456e-bc7a-236b87fd4019">
+        <properties>
+            <property name="processingStrategy2"/>
+            <property name="processingStrategy"/>
+            <property value="34" name="auxiliary;index"/>
+            <property name="bussinessEventsLabel"/>
+            <property name="tracking:enable-default-events"/>
+            <property value="34" name="auxiliary;index"/>
+            <property value="34" name="auxiliary;index"/>
+            <property value="34" name="auxiliary;index"/>
+        </properties>
+        <lane isChoiceOtherwiseLane="false" index="0" hadOnlyOneElement="false" entity-id="compartment-lane#10">
+            <pattern type="http://www.mulesoft.org/schema/mule/espnapi/espnapi-connector" name="currentDayEventsBySportLeague" entity-id="ESPN Dev Center API#5">
+                <properties>
+                    <property value="ESPN_Dev_Center_API" name="config-ref"/>
+                    <property value="http://www.mulesoft.org/schema/mule/espnapi/current-days-events-by-sport-league" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="ESPN_Dev_Center_API" name="config-ref"/>
+                    <property value="35" name="auxiliary;index"/>
+                    <property value="#[league]" name="league"/>
+                    <property value="#[sport]" name="sport"/>
+                    <property value="35" name="auxiliary;index"/>
+                    <property value="35" name="auxiliary;index"/>
+                    <property value="35" name="auxiliary;index"/>
+                    <property value="35" name="auxiliary;index"/>
+                    <property value="35" name="auxiliary;index"/>
+                    <property value="35" name="auxiliary;index"/>
+                    <property value="35" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/naivejsonmergediff/naivejsonmergediff-connector" name="convertToJSONObject" entity-id="Naivejsonmergediff#9">
+                <properties>
+                    <property value="Naivejsonmergediff" name="config-ref"/>
+                    <property value="http://www.mulesoft.org/schema/mule/naivejsonmergediff/parse-json" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="Naivejsonmergediff" name="config-ref"/>
+                    <property value="36" name="auxiliary;index"/>
+                    <property value="#[payload]" name="json"/>
+                    <property value="36" name="auxiliary;index"/>
+                    <property value="36" name="auxiliary;index"/>
+                    <property value="36" name="auxiliary;index"/>
+                    <property value="36" name="auxiliary;index"/>
+                    <property value="36" name="auxiliary;index"/>
+                    <property value="36" name="auxiliary;index"/>
+                    <property value="36" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/core/session-variable-transformer" name="currentDayEventsEndTime" entity-id="Session Variable#9">
+                <properties>
+                    <property value="http://www.mulesoft.org/schema/mule/core/set-session-variable" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="currentDayEventsEndTime" name="variableName"/>
+                    <property value="#[java.lang.System.currentTimeMillis()]" name="value"/>
+                    <property value="37" name="auxiliary;index"/>
+                    <property value="37" name="auxiliary;index"/>
+                    <property value="37" name="auxiliary;index"/>
+                    <property value="37" name="auxiliary;index"/>
+                    <property value="37" name="auxiliary;index"/>
+                    <property value="37" name="auxiliary;index"/>
+                    <property value="37" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <scope type="http://www.mulesoft.org/schema/mule/core/catch-exception-strategy" name="Catch Exception Strategy" entity-id="Catch Exception Strategy#5">
+                <properties>
+                    <property name="labelConfigureConditionalExecutionUsingExpression"/>
+                    <property name="when"/>
+                    <property name="enableNotifications"/>
+                    <property value="38" name="auxiliary;index"/>
+                    <property value="38" name="auxiliary;index"/>
+                    <property value="38" name="auxiliary;index"/>
+                </properties>
+                <compartment entity-id="compartment#5">
+                    <lane isChoiceOtherwiseLane="false" index="0" hadOnlyOneElement="false" entity-id="compartment-lane#11">
+                        <pattern type="http://www.mulesoft.org/schema/mule/core/logger" name="invalidJSONReponseFromESPNApi" entity-id="Logger#5">
+                            <properties>
+<property value="#[exception]" name="message"/>
+<property value="INFO" name="level"/>
+<property name="category"/>
+<property value="39" name="auxiliary;index"/>
+<property value="39" name="auxiliary;index"/>
+<property value="39" name="auxiliary;index"/>
+                            </properties>
+                        </pattern>
+                        <pattern type="http://www.mulesoft.org/schema/mule/naivejsonmergediff/naivejsonmergediff-connector" name="setErrorJsonPayload" entity-id="Naivejsonmergediff#10">
+                            <properties>
+<property value="Naivejsonmergediff" name="config-ref"/>
+<property value="http://www.mulesoft.org/schema/mule/naivejsonmergediff/parse-json" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+<property value="Naivejsonmergediff" name="config-ref"/>
+<property value="40" name="auxiliary;index"/>
+<property value="{ 'error' : 'invalid json' }" name="json"/>
+<property value="40" name="auxiliary;index"/>
+<property value="40" name="auxiliary;index"/>
+<property value="40" name="auxiliary;index"/>
+<property value="40" name="auxiliary;index"/>
+<property value="40" name="auxiliary;index"/>
+<property value="40" name="auxiliary;index"/>
+<property value="40" name="auxiliary;index"/>
+                            </properties>
+                        </pattern>
+                    </lane>
+                </compartment>
+            </scope>
+        </lane>
+    </flow>
+    <flow SubFlow="false" name="playersByHomeAwayTeam" entity-id="f2bd504f-db0d-4122-bedf-192e5d115d46">
+        <properties>
+            <property name="processingStrategy2"/>
+            <property name="processingStrategy"/>
+            <property value="41" name="auxiliary;index"/>
+            <property name="bussinessEventsLabel"/>
+            <property name="tracking:enable-default-events"/>
+            <property value="41" name="auxiliary;index"/>
+            <property value="41" name="auxiliary;index"/>
+            <property value="41" name="auxiliary;index"/>
+        </properties>
+        <lane isChoiceOtherwiseLane="false" index="0" hadOnlyOneElement="false" entity-id="compartment-lane#12">
+            <pattern type="http://www.mulesoft.org/schema/mule/espnapi/espnapi-connector" name="getPlayersByHomeAwayTeam" entity-id="ESPN Dev Center API#6">
+                <properties>
+                    <property value="ESPN_Dev_Center_API" name="config-ref"/>
+                    <property value="http://www.mulesoft.org/schema/mule/espnapi/all-athletes-by-sport-league-teams" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="ESPN_Dev_Center_API" name="config-ref"/>
+                    <property value="42" name="auxiliary;index"/>
+                    <property value="#[league]" name="league"/>
+                    <property value="#[sport]" name="sport"/>
+                    <property value="'#[homeTeam],#[awayTeam]'" name="teams"/>
+                    <property value="42" name="auxiliary;index"/>
+                    <property value="42" name="auxiliary;index"/>
+                    <property value="42" name="auxiliary;index"/>
+                    <property value="42" name="auxiliary;index"/>
+                    <property value="42" name="auxiliary;index"/>
+                    <property value="42" name="auxiliary;index"/>
+                    <property value="42" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/naivejsonmergediff/naivejsonmergediff-connector" name="convertToJSONObject" entity-id="Naivejsonmergediff#11">
+                <properties>
+                    <property value="Naivejsonmergediff" name="config-ref"/>
+                    <property value="http://www.mulesoft.org/schema/mule/naivejsonmergediff/parse-json" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="Naivejsonmergediff" name="config-ref"/>
+                    <property value="43" name="auxiliary;index"/>
+                    <property value="#[payload]" name="json"/>
+                    <property value="43" name="auxiliary;index"/>
+                    <property value="43" name="auxiliary;index"/>
+                    <property value="43" name="auxiliary;index"/>
+                    <property value="43" name="auxiliary;index"/>
+                    <property value="43" name="auxiliary;index"/>
+                    <property value="43" name="auxiliary;index"/>
+                    <property value="43" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/core/session-variable-transformer" name="playersEndTime" entity-id="Session Variable#10">
+                <properties>
+                    <property value="http://www.mulesoft.org/schema/mule/core/set-session-variable" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="playersEndTime" name="variableName"/>
+                    <property value="#[java.lang.System.currentTimeMillis()]" name="value"/>
+                    <property value="44" name="auxiliary;index"/>
+                    <property value="44" name="auxiliary;index"/>
+                    <property value="44" name="auxiliary;index"/>
+                    <property value="44" name="auxiliary;index"/>
+                    <property value="44" name="auxiliary;index"/>
+                    <property value="44" name="auxiliary;index"/>
+                    <property value="44" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <scope type="http://www.mulesoft.org/schema/mule/core/catch-exception-strategy" name="Catch Exception Strategy" entity-id="Catch Exception Strategy#6">
+                <properties>
+                    <property name="labelConfigureConditionalExecutionUsingExpression"/>
+                    <property name="when"/>
+                    <property name="enableNotifications"/>
+                    <property value="45" name="auxiliary;index"/>
+                    <property value="45" name="auxiliary;index"/>
+                    <property value="45" name="auxiliary;index"/>
+                </properties>
+                <compartment entity-id="compartment#6">
+                    <lane isChoiceOtherwiseLane="false" index="0" hadOnlyOneElement="false" entity-id="compartment-lane#13">
+                        <pattern type="http://www.mulesoft.org/schema/mule/core/logger" name="invalidJSONReponseFromESPNApi" entity-id="Logger#6">
+                            <properties>
+<property value="#[exception]" name="message"/>
+<property value="INFO" name="level"/>
+<property name="category"/>
+<property value="46" name="auxiliary;index"/>
+<property value="46" name="auxiliary;index"/>
+<property value="46" name="auxiliary;index"/>
+                            </properties>
+                        </pattern>
+                        <pattern type="http://www.mulesoft.org/schema/mule/naivejsonmergediff/naivejsonmergediff-connector" name="setErrorJsonPayload" entity-id="Naivejsonmergediff#12">
+                            <properties>
+<property value="Naivejsonmergediff" name="config-ref"/>
+<property value="http://www.mulesoft.org/schema/mule/naivejsonmergediff/parse-json" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+<property value="Naivejsonmergediff" name="config-ref"/>
+<property value="47" name="auxiliary;index"/>
+<property value="{ 'error' : 'invalid json' }" name="json"/>
+<property value="47" name="auxiliary;index"/>
+<property value="47" name="auxiliary;index"/>
+<property value="47" name="auxiliary;index"/>
+<property value="47" name="auxiliary;index"/>
+<property value="47" name="auxiliary;index"/>
+<property value="47" name="auxiliary;index"/>
+<property value="47" name="auxiliary;index"/>
+                            </properties>
+                        </pattern>
+                    </lane>
+                </compartment>
+            </scope>
+        </lane>
+    </flow>
+    <description></description>
+</mule-configuration>
